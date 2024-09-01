@@ -1,0 +1,27 @@
+{
+  "name": "reactor",
+  "namespace": "reactor",
+  "sources": [
+    {
+      "dir": "src",
+      "subdirs": true
+    }
+  ],
+  "package-specs": [
+    {
+      "module": "esmodule",
+      "in-source": true
+    }
+  ],
+  "suffix": ".mjs",
+  "bs-dependencies": [
+    "@rescript/core",
+    "rescript-bun"
+  ],
+  "bsc-flags": [
+    "-open RescriptCore"
+  ],
+  "jsx": {
+    "module": "JSX"
+  }
+}

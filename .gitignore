@@ -1,0 +1,5 @@
+lib/
+node_modules/
+
+*.mjs
+!src/reactive-jsx/jsx-runtime/index.mjs
