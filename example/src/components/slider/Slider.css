@@ -1,0 +1,103 @@
+@keyframes prevButton {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes nextButton {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slide {
+  0% {
+    opacity: 0;
+    scale: 0.8;
+  }
+
+  50% {
+    opacity: 1;
+    scale: 1;
+  }
+
+  100% {
+    opacity: 0;
+    scale: 0.8;
+  }
+}
+
+x-slider {
+  position: relative;
+
+  timeline-scope: --slides;
+
+  >.controls {
+    position: absolute;
+    inset: 0 -4rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    >button {
+      width: 3rem;
+      height: 3rem;
+
+      color: inherit;
+      background: none;
+      border: 1px solid;
+      border-radius: 50%;
+
+      font-size: 1rem;
+
+      cursor: pointer;
+
+      &.prevButton {
+        opacity: 0;
+
+        animation: prevButton linear both;
+        animation-timeline: --slides;
+        animation-range: 0 25%;
+      }
+
+      &.nextButton {
+        opacity: 1;
+
+        animation: nextButton linear both;
+        animation-timeline: --slides;
+        animation-range: 75% 100%;
+      }
+    }
+  }
+
+  >.slides {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 100%;
+
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+
+    scroll-timeline: --slides x;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    >.slide {
+      scroll-snap-align: start;
+
+      >img {
+        width: 100%;
+        height: 100%;
+
+        border-radius: 0.5rem;
+
+        animation: slide linear both;
+        animation-timeline: view(x);
+      }
+    }
+  }
+}

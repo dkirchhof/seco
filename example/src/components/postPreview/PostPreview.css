@@ -1,0 +1,91 @@
+/* @keyframes fade-in { */
+/*   0% { */
+
+/*     opacity: 0; */
+/*   } */
+
+/*   40% { */
+
+/*     opacity: 1; */
+/*   } */
+
+/*   60% { */
+
+/*     opacity: 1; */
+/*   } */
+
+/*   100% { */
+
+/*     opacity: 0; */
+/*   } */
+/* } */
+
+.postPreview {
+  >a {
+    display: grid;
+    gap: 2rem;
+    align-items: flex-start;
+
+    color: inherit;
+    text-decoration: none;
+
+    >img {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+
+      border-radius: 0.5rem;
+    }
+
+    >div {
+      display: grid;
+      gap: 0.5rem;
+
+      >h2 {
+        margin: 0;
+
+        font-size: 2rem;
+        font-weight: normal;
+      }
+
+      >.date {
+        font-size: 0.75rem;
+      }
+
+      >p {
+        margin: 0;
+      }
+    }
+  }
+
+  &.Big {
+    grid-column: 1 / 4;
+
+    >a {
+      grid-template-columns: 1fr 1fr;
+
+      >div {
+        >h2 {
+          font-size: 3rem;
+        }
+      }
+    }
+  }
+
+  /* &:nth-child(3n+2) { */
+  /*   --offset: -10vh; */
+  /* } */
+
+  /* &:nth-child(3n+3) { */
+  /*   --offset: -20vh; */
+  /* } */
+
+  /* &:nth-child(3n+4) { */
+  /*   --offset: -30vh; */
+  /* } */
+
+  /* view-timeline-name: --item-timeline; */
+  /* animation: fade-in linear both; */
+  /* animation-timeline: --item-timeline; */
+  /* /* animation-range: contain 0% contain 100%; */ */
+  /* animation-range: cover 0% cover 100%; */
+}

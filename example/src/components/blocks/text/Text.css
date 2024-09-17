@@ -1,0 +1,6 @@
+.block.text {
+  margin: 1rem 0;
+
+  /* max-width: 75ch; */
+  text-wrap: pretty;
+}

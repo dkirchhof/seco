@@ -1,0 +1,15 @@
+.block.separator {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+
+  margin-block: 2rem;
+
+  >span {
+    width: 0.25rem;
+    height: 0.25rem;
+
+    background: currentColor;
+    border-radius: 50%;
+  }
+}
