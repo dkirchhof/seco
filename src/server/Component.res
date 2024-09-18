@@ -1,5 +1,5 @@
 type noProps = {}
 
-let make = (render: unit => promise<Jsx.element>): Element.t<noProps> => {
-  Element.Async(Obj.magic(render))
+let make = (render: noProps => promise<Jsx.element>) => {
+  Element.Async(render)
 }

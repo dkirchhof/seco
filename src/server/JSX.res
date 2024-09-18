@@ -3,13 +3,9 @@ external int: int => Jsx.element = "%identity"
 external string: string => Jsx.element = "%identity"
 external array: array<Jsx.element> => Jsx.element = "%identity"
 
-let jsx = JSX_Impl.renderReactorComponent
-let jsxs = JSX_Impl.renderReactorComponent
+let jsx = JSX_Impl.createElement
+let jsxs = JSX_Impl.createElement
 let jsxFragment = JSX_Impl.fragment
-
-let renderArray = (arr, mapper) => {
-  arr->Array.map(mapper)->array
-}
 
 module Elements = {
   type props = {
@@ -17,8 +13,8 @@ module Elements = {
     class?: string,
   }
 
-  let jsx = JSX_Impl.renderTag
-  let jsxs = JSX_Impl.renderTag
+  let jsx = JSX_Impl.createTag
+  let jsxs = JSX_Impl.createTag
 
   external someElement: Jsx.element => option<Jsx.element> = "%identity"
 }

@@ -27,7 +27,7 @@ let handleProps = props => {
   Dict.set(props, "children", children)
 }
 
-let renderReactorComponent = (component: Element.t<'props>, props: 'props) => {
+let createElement = (component: Element.t<'props>, props: 'props) => {
   handleProps(props)
 
   switch component {
@@ -38,12 +38,12 @@ let renderReactorComponent = (component: Element.t<'props>, props: 'props) => {
     })->Node.toElement
   | Fragment =>
     Node.Fragment({
-      props,
+      props: props,
     })->Node.toElement
   }
 }
 
-let renderTag = (tag: string, props: props): Jsx.element => {
+let createTag = (tag: string, props: props): Jsx.element => {
   handleProps(props)
 
   Node.Tag({
@@ -52,7 +52,7 @@ let renderTag = (tag: string, props: props): Jsx.element => {
   })->Node.toElement
 }
 
-type fragmentProps = {children?: Jsx.element}
+type fragmentProps = {children: Jsx.element}
 
 let fragment: Element.t<fragmentProps> = {
   Element.Fragment
