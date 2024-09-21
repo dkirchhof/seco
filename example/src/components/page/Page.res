@@ -58,6 +58,7 @@ let make = ComponentP.make(async props => {
           <div> props.children </div>
         </main>
         <footer />
+        <SearchPanel />
       </body>
     </html>
   </>

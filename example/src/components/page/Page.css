@@ -9,14 +9,16 @@
 }
 
 :root {
-  --color: #333;
-  --background: #fff;
+  --color: #333333;
+  --background: #ffffff;
+  --border: #e5e7eb;
+  --active: #f2f3f5;
 
   scrollbar-gutter: stable;
 
   @media (prefers-color-scheme: dark) {
-    --color: #ccc;
-    --background: #111;
+    --color: #cccccc;
+    --background: #111111;
 
     /* color-scheme: dark light; */
   }
@@ -45,6 +47,7 @@ body {
   /* background-image: repeating-linear-gradient(transparent, transparent 2px, #0000003d 3px); */
 
   font-family: monospace;
+  font-size: 1rem;
 
   >header {
     position: sticky;

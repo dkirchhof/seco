@@ -1,0 +1,83 @@
+search-panel {
+  display: block;
+
+  >dialog {
+    width: 100%;
+    max-width: 36rem;
+    height: 450px;
+    margin: auto;
+
+    background: var(--background);
+    border: none;
+    border-radius: 0.5rem;
+
+    &::backdrop {
+      background: rgba(0, 0, 0, 0.6);
+    }
+
+    >.searchBar {
+      display: grid;
+      grid-template-columns: 1.5rem 1fr 1.5rem;
+      gap: 0.5rem;
+      align-items: center;
+
+      padding: 1rem;
+
+      border-bottom: 1px solid var(--border);
+
+      svg {
+        display: block;
+
+        width: 100%;
+        height: 100%;
+      }
+
+      >input {
+        border: none;
+        outline: none;
+      }
+
+      >button {
+        border: none;
+        background: none;
+        opacity: 0;
+
+        cursor: pointer;
+
+        transition: opacity .2s ease;
+      }
+
+      >input:not(:placeholder-shown)+button {
+        opacity: 1;
+      }
+    }
+
+    > ul {
+      list-style: none;
+
+      padding: 1rem;
+
+      > li {
+        > a {
+          display: block;
+
+          padding: 1rem;
+
+          color: inherit;
+          border-radius: 0.5rem;
+          outline-offset: 0;
+
+          text-decoration: none;
+
+          &:focus-visible {
+            outline: 1px solid var(--border);
+          }
+
+          &:hover {
+            background: var(--active);
+          }
+        }
+      }
+    }
+  }
+}
