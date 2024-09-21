@@ -1,9 +1,12 @@
 open RescriptBun
 
 module LightningCSS = {
+  type targets = {chrome: int}
+
   type bundleOptions = {
     filename: string,
     minify: bool,
+    targets: targets,
   }
 
   type bundleResult = {code: Uint8Array.t}
@@ -28,6 +31,9 @@ let bundle = async (pageName, styleFiles, outDir, minify) => {
 
     let result = LightningCSS.bundle({
       filename: tmpPath,
+      targets: {
+        chrome: 128,
+      },
       minify,
     })
 

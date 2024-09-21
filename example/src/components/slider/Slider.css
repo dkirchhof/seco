@@ -57,8 +57,7 @@ x-slider {
         opacity: 0;
 
         animation: prevButton linear both;
-        /* FIXES: https://github.com/parcel-bundler/lightningcss/issues/815 */
-        /* animation-timeline: --slides; */
+        animation-timeline: --slides;
         animation-range: 0 25%;
       }
 
@@ -66,15 +65,8 @@ x-slider {
         opacity: 1;
 
         animation: nextButton linear both;
-        /* FIXES: https://github.com/parcel-bundler/lightningcss/issues/815 */
-        /* animation-timeline: --slides; */
-        animation-range: 75% 100%;
-      }
-
-      &.prevButton,
-      &.nextButton {
-        /* FIXES: https://github.com/parcel-bundler/lightningcss/issues/815 */
         animation-timeline: --slides;
+        animation-range: 75% 100%;
       }
     }
   }
@@ -104,16 +96,6 @@ x-slider {
         border-radius: 0.5rem;
 
         animation: slide linear both;
-        /* FIXES: https://github.com/parcel-bundler/lightningcss/issues/815 */
-        /* animation-timeline: view(x); */
-      }
-    }
-  }
-
-  /* FIXES: https://github.com/parcel-bundler/lightningcss/issues/815 */
-  >.slides {
-    >.slide {
-      >img {
         animation-timeline: view(x);
       }
     }
