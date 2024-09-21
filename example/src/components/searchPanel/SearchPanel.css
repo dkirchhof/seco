@@ -12,6 +12,10 @@ search-panel {
     background: none;
     border: none;
 
+    &::backdrop {
+      background: rgba(0, 0, 0, 0.6);
+    }
+
     >.inner {
       display: grid;
       grid-template-rows: auto 1fr;
@@ -22,10 +26,6 @@ search-panel {
       background: var(--background);
       border: none;
       border-radius: 0.5rem;
-
-      &::backdrop {
-        background: rgba(0, 0, 0, 0.6);
-      }
 
       >.searchBar {
         display: grid;

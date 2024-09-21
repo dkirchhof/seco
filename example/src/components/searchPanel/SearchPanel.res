@@ -1,7 +1,4 @@
 let make = Component.make(async _ => {
-  // TODO: remove it
-  let posts = await API.getPosts()
-
   <search-panel>
     <dialog>
       <div class="inner">
@@ -39,15 +36,7 @@ let make = Component.make(async _ => {
             </svg>
           </button>
         </div>
-        <ul>
-          {posts
-          ->Array.map(post =>
-            <li>
-              <a href={`/blog/posts/${post.id}`}> {Jsx.string(post.title)} </a>
-            </li>
-          )
-          ->Jsx.array}
-        </ul>
+        <ul />
       </div>
     </dialog>
   </search-panel>

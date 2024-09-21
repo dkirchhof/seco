@@ -5,9 +5,11 @@ WebComponent.define({
   connect: () => {
     let dialog = DOMUtils.querySelector("dialog")->Option.getExn
     let input = DOMUtils.querySelector("input")->Option.getExn
+    let list = DOMUtils.querySelector("ul")->Option.getExn
 
     let openDialog = () => {
       DOMUtils.setValue(input, "")
+      DOMUtils.setInnerHTML(list, "")
 
       let _ = DOMUtils.startViewTransition(document, () => {
         DOMUtils.showModal(dialog)
@@ -46,6 +48,25 @@ WebComponent.define({
       if target === dialog {
         closeDialog()
       }
+    })
+
+    DOMUtils.addEventListener(input, "input", _ => {
+      let query = DOMUtils.getValue(input)
+
+      let _ = API.getPosts()->Promise.thenResolve(posts => {
+        let html =
+          posts
+          ->Array.filter(post => String.includes(post.title, query))
+          ->Array.map(post => `<li><a href="/blog/posts/${post.id}">${post.title}</a></li>`)
+          ->Array.join("")
+
+        DOMUtils.startViewTransition(
+          document,
+          () => {
+            DOMUtils.setInnerHTML(list, html)
+          },
+        )
+      })
     })
   },
 })
