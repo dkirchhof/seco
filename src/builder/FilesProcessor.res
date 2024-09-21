@@ -1,3 +1,10 @@
+module FS = {
+  type options = {recursive: bool}
+
+  @module("fs/promises")
+  external rm: (string, options) => promise<unit> = "rm"
+}
+
 let processFile = async (~file, ~pageSuffix, ~outDir, ~minify) => {
   let pageName = PageName.get(~file, ~pageSuffix)
 
@@ -23,6 +30,8 @@ let processFile = async (~file, ~pageSuffix, ~outDir, ~minify) => {
 }
 
 let processFiles = (~pageSuffix, ~outDir, ~minify) => async files => {
+  await FS.rm(outDir, { recursive: true })
+
   let assets: SecoAssets.t = Map.make()
 
   // pageFiles->Array.map(processFile(src, public, minify))->Promise.all
