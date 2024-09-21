@@ -1,4 +1,7 @@
+type headlineLevel = H2 | H3 | H4 | H5 | H6
+
 type block =
+  | Headline(headlineLevel, string)
   | Text(string)
   | Quote({quote: string, quotee: string})
   | Separator()
