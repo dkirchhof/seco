@@ -14,13 +14,16 @@
   --border: #e5e7eb;
   --active: #f2f3f5;
 
+  color-scheme: light dark;
   scrollbar-gutter: stable;
 
   @media (prefers-color-scheme: dark) {
     --color: #cccccc;
     --background: #111111;
+    --border: #727272;
+    --active: #292929;
 
-    /* color-scheme: dark light; */
+    color-scheme: dark light;
   }
 }
 
