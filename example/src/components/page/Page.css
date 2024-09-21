@@ -55,7 +55,8 @@ body {
     background: var(--background);
 
     animation: header linear forwards;
-    animation-timeline: scroll();
+    /* FIXES: https://github.com/parcel-bundler/lightningcss/issues/815 */
+    /* animation-timeline: scroll(); */
     animation-range: 0 10rem;
 
     >nav {
@@ -97,5 +98,12 @@ body {
       font-size: 4rem;
       font-weight: normal;
     }
+  }
+}
+
+/* FIXES: https://github.com/parcel-bundler/lightningcss/issues/815 */
+body {
+  >header {
+    animation-timeline: scroll();
   }
 }

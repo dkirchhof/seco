@@ -17,7 +17,7 @@ let server = Bun.serve({
 
     switch path {
     | list{"public", ...rest} =>
-      Bun.file(`./example/public/${rest->List.toArray->Array.join("/")}`)->Response.makeFromFile
+      Bun.file(`./public/${rest->List.toArray->Array.join("/")}`)->Response.makeFromFile
     | list{} =>
       let html = await Renderer.render(<Home_Page pathname=url.pathname />, false)
       let headers = HeadersInit.FromArray([("content-type", "text/html")])

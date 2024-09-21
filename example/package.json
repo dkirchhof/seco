@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "bundle": "bun src/Bundle.mjs",
+    "dev:server": "bun --hot src/index.mjs"
+  }
+}

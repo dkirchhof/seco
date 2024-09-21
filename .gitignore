@@ -3,4 +3,3 @@ node_modules/
 public/
 
 *.mjs
-!src/reactive-jsx/jsx-runtime/index.mjs

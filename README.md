@@ -1,3 +1,5 @@
+Seco - Don't hydrate, stay dry
+
 sercom (Server Components)
 seco (Server Components) (spanisch = trocken (vs hydration))
 seweco (Server Web Components)
@@ -15,3 +17,4 @@ probleme in nextjs:
 - client code in server code 💩
 - next build => static pages, fetch error? => build error <== force dynamic
 - eingeschränkte ordner struktur (schwierig feature based zu arbeiten)
+- speicherprobleme? magic? was passiert hier eigentlich?
