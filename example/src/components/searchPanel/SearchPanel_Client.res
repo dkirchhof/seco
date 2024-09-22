@@ -7,9 +7,23 @@ WebComponent.define({
     let input = DOMUtils.querySelector("input")->Option.getExn
     let list = DOMUtils.querySelector("ul")->Option.getExn
 
+    let (findPosts, resetPosts) = APISignal.make(API.findPosts, v => {
+      switch v {
+      | Init => DOMUtils.setInnerHTML(list, "Search for posts")
+      | Loading => DOMUtils.setInnerHTML(list, "Searching...")
+      | Success(posts) =>
+        posts
+        ->Array.map(post => `<li><a href="/blog/posts/${post.id}">${post.title}</a></li>`)
+        ->Array.join("")
+        ->(DOMUtils.setInnerHTML(list, _))
+      | Error(message) => DOMUtils.setInnerHTML(list, message)
+      }
+    })
+
     let openDialog = () => {
       DOMUtils.setValue(input, "")
-      DOMUtils.setInnerHTML(list, "")
+
+      resetPosts()
 
       let _ = DOMUtils.startViewTransition(document, () => {
         DOMUtils.showModal(dialog)
@@ -53,20 +67,22 @@ WebComponent.define({
     DOMUtils.addEventListener(input, "input", _ => {
       let query = DOMUtils.getValue(input)
 
-      let _ = API.getPosts()->Promise.thenResolve(posts => {
-        let html =
-          posts
-          ->Array.filter(post => String.includes(post.title, query))
-          ->Array.map(post => `<li><a href="/blog/posts/${post.id}">${post.title}</a></li>`)
-          ->Array.join("")
+      // let _ = API.getPosts()->Promise.thenResolve(posts => {
+      //   let html =
+      //     posts
+      //     ->Array.filter(post => String.includes(post.title, query))
+      //     ->Array.map(post => `<li><a href="/blog/posts/${post.id}">${post.title}</a></li>`)
+      //     ->Array.join("")
 
-        DOMUtils.startViewTransition(
-          document,
-          () => {
-            DOMUtils.setInnerHTML(list, html)
-          },
-        )
-      })
+      //   DOMUtils.startViewTransition(
+      //     document,
+      //     () => {
+      //       DOMUtils.setInnerHTML(list, html)
+      //     },
+      //   )
+      // })
+
+      findPosts(query)
     })
   },
 })
