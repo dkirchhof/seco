@@ -1,6 +1,21 @@
 search-panel {
-  display: block;
+  padding-left: 0.75rem;
 
+  border-left: 2px solid var(--border);
+
+  >button {
+    background: none;
+    border: none;
+    text-underline-offset: 0.25rem;
+
+    font-size: 1.25rem;
+
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 
   >dialog {
     width: 100%;

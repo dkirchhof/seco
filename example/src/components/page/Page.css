@@ -58,6 +58,11 @@ body {
     z-index: 1;
     padding: 2rem;
 
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 1rem;
+
     background: var(--background);
 
     animation: header linear forwards;
@@ -66,7 +71,6 @@ body {
 
     >nav {
       display: flex;
-      justify-content: center;
       gap: 1rem;
       align-items: baseline;
 

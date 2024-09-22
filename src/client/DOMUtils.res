@@ -17,6 +17,7 @@ external querySelectorAll: string => array<Dom.element> = "this.querySelectorAll
 @send external show: Dom.element => unit = "show"
 @send external showModal: Dom.element => unit = "showModal"
 @send external close: Dom.element => unit = "close"
+@send external focus: Dom.element => unit = "focus"
 
 type viewTransition = {finished: promise<unit>}
 

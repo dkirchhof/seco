@@ -39,26 +39,13 @@ let make = ComponentP.make(async props => {
             <Link name="Blog" pathname="/blog" currentPathname=props.pathname />
             <Link name="Lorem" pathname="/lorem" currentPathname=props.pathname />
             <Link name="Ipsum" pathname="/ipsum" currentPathname=props.pathname />
-
-            // <a href="/" ariaCurrent={List.head(props.path) === None ? #page : #"false"}>
-            //   {Jsx.string("DK")}
-            // </a>
-            // <a href="/blog" ariaCurrent={List.head(props.path) === Some("blog") ? #page : #"false"}>
-            //   {Jsx.string("Blog")}
-            // </a>
-            // <a href="/lorem" ariaCurrent={List.head(props.path) === Some("lorem") ? #page : #"false"}>
-            //   {Jsx.string("Lorem")}
-            // </a>
-            // <a href="/ipsum" ariaCurrent={List.head(props.path) === Some("ipsum") ? #page : #"false"}>
-            //   {Jsx.string("Ipsum")}
-            // </a>
           </nav>
+          <SearchPanel />
         </header>
         <main>
           <div> props.children </div>
         </main>
         <footer />
-        <SearchPanel />
       </body>
     </html>
   </>

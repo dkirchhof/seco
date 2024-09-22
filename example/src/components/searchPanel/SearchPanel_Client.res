@@ -3,6 +3,7 @@ let dialogOpen = ref(false)
 WebComponent.define({
   name: "search-panel",
   connect: () => {
+    let openButton = DOMUtils.querySelector("button")->Option.getExn
     let dialog = DOMUtils.querySelector("dialog")->Option.getExn
     let input = DOMUtils.querySelector("input")->Option.getExn
     let list = DOMUtils.querySelector("ul")->Option.getExn
@@ -12,10 +13,17 @@ WebComponent.define({
       | Init => DOMUtils.setInnerHTML(list, "Search for posts")
       | Loading => DOMUtils.setInnerHTML(list, "Searching...")
       | Success(posts) =>
-        posts
-        ->Array.map(post => `<li><a href="/blog/posts/${post.id}">${post.title}</a></li>`)
-        ->Array.join("")
-        ->(DOMUtils.setInnerHTML(list, _))
+        let _ = DOMUtils.startViewTransition(document, () => {
+          let html = switch Array.length(posts) {
+          | 0 => "Nothing found"
+          | _ =>
+            posts
+            ->Array.map(post => `<li><a href="/blog/posts/${post.id}">${post.title}</a></li>`)
+            ->Array.join("")
+          }
+
+          DOMUtils.setInnerHTML(list, html)
+        })
       | Error(message) => DOMUtils.setInnerHTML(list, message)
       }
     })
@@ -40,14 +48,12 @@ WebComponent.define({
       })
     }
 
+    DOMUtils.addEventListener(openButton, "click", _ => {
+      openDialog()
+    })
+
     DOMUtils.addEventListener(DOMUtils.document, "keydown", e => {
       let key = JsxEvent.Keyboard.key(e)
-      let ctrl = JsxEvent.Keyboard.ctrlKey(e)
-      let cmd = JsxEvent.Keyboard.metaKey(e)
-
-      if key === "k" && (ctrl || cmd) {
-        openDialog()
-      }
 
       if key === "Escape" && dialogOpen.contents {
         JsxEvent.Keyboard.preventDefault(e)
@@ -66,21 +72,6 @@ WebComponent.define({
 
     DOMUtils.addEventListener(input, "input", _ => {
       let query = DOMUtils.getValue(input)
-
-      // let _ = API.getPosts()->Promise.thenResolve(posts => {
-      //   let html =
-      //     posts
-      //     ->Array.filter(post => String.includes(post.title, query))
-      //     ->Array.map(post => `<li><a href="/blog/posts/${post.id}">${post.title}</a></li>`)
-      //     ->Array.join("")
-
-      //   DOMUtils.startViewTransition(
-      //     document,
-      //     () => {
-      //       DOMUtils.setInnerHTML(list, html)
-      //     },
-      //   )
-      // })
 
       findPosts(query)
     })

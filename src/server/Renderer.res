@@ -50,7 +50,14 @@ let propsToAttributesString = props => {
   ->Obj.magic
   ->Dict.toArray
   ->Array.filter(((key, _value)) => key !== "children")
-  ->Array.map(((key, value)) => ` ${key}="${value}"`)
+  ->Array.map(((key, value: Attribute.t)) => {
+    switch value {
+    | String(s) => ` ${key}="${s}"`
+    | Number(n) => ` ${key}="${Float.toString(n)}"`
+    | Bool(true) => ` ${key}`
+    | Bool(false) | Null | Undefined => ""
+    }
+  })
   ->Array.join("")
 }
 

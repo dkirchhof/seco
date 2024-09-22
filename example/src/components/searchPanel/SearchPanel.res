@@ -1,5 +1,6 @@
 let make = Component.make(async _ => {
   <search-panel>
+    <button> {Jsx.string("Search")} </button>
     <dialog>
       <div class="inner">
         <div class="searchBar">
