@@ -182,15 +182,13 @@ let getPost = async id => {
   posts->Array.find(post => post.id === id)
 }
 
-let findPosts = query => {
+let findPosts = async query => {
   // await RescriptBun.Timers.Promises.setTimeout(250)
 
   // posts->Array.filter(post => String.includes(post.title, query))
 
-  Promise.make((resolve, _) => {
-    let _ = RescriptBun.Timers.setTimeout(
-      () => resolve(posts->Array.filter(post => String.includes(post.title, query))),
-      500,
-    )
-  })
+  switch query {
+  | "" => []
+  | _ => posts->Array.filter(post => String.includes(post.title, query))
+  }
 }

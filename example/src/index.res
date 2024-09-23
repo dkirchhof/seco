@@ -3,7 +3,28 @@ open RescriptBun.Globals
 
 @get external url: Bun.Server.t => string = "url"
 
-let x = [1, 2, 3, 4, 5]
+let fileResponse = async path => {
+  Bun.file(`./public/${path->List.toArray->Array.join("/")}`)->Response.makeFromFile
+}
+
+let notFoundResponse = async () => {
+  Response.make("not found", ~options={status: 404})
+}
+
+let jsonResponse = async data => {
+  let json = data->JSON.stringifyAny->Option.getExn
+
+  let headers = HeadersInit.FromArray([("content-type", "application/json")])
+
+  Response.make(json, ~options={headers: headers})
+}
+
+let htmlResponse = async element => {
+  let html = await Renderer.render(element, false)
+  let headers = HeadersInit.FromArray([("content-type", "text/html")])
+
+  Response.make(html, ~options={headers: headers})
+}
 
 let server = Bun.serve({
   port: 3000,
@@ -16,62 +37,20 @@ let server = Bun.serve({
       ->List.fromArray
 
     switch path {
-    | list{"public", ...rest} =>
-      Bun.file(`./public/${rest->List.toArray->Array.join("/")}`)->Response.makeFromFile
-    | list{} =>
-      let html = await Renderer.render(<Home_Page pathname=url.pathname />, false)
-      let headers = HeadersInit.FromArray([("content-type", "text/html")])
+    | list{"api", "findPosts"} =>
+      let query = url.searchParams.get("q")->Null.getOr("")
+      let posts = await API.findPosts(query)
 
-      Response.make(html, ~options={headers: headers})
-    | list{"blog"} =>
-      let html = await Renderer.render(<Blog_Page pathname=url.pathname />, false)
-      let headers = HeadersInit.FromArray([("content-type", "text/html")])
-
-      Response.make(html, ~options={headers: headers})
-    | list{"blog", "posts", id} =>
-      let html = await Renderer.render(<Post_Page pathname=url.pathname id />, false)
-      let headers = HeadersInit.FromArray([("content-type", "text/html")])
-
-      Response.make(html, ~options={headers: headers})
-    | list{"lorem"} =>
-      let html = await Renderer.render(<Lorem_Page pathname=url.pathname />, false)
-      let headers = HeadersInit.FromArray([("content-type", "text/html")])
-
-      Response.make(html, ~options={headers: headers})
-    | list{"ipsum"} =>
-      let html = await Renderer.render(<Ipsum_Page pathname=url.pathname />, false)
-      let headers = HeadersInit.FromArray([("content-type", "text/html")])
-
-      Response.make(html, ~options={headers: headers})
-    | _ => Response.make("not found", ~options={status: 404})
+      await jsonResponse(posts)
+    | list{"public", ...rest} => await fileResponse(rest)
+    | list{} => await htmlResponse(<Home_Page pathname=url.pathname />)
+    | list{"blog"} => await htmlResponse(<Blog_Page pathname=url.pathname />)
+    | list{"blog", "posts", id} => await htmlResponse(<Post_Page pathname=url.pathname id />)
+    | list{"lorem"} => await htmlResponse(<Lorem_Page pathname=url.pathname />)
+    | list{"ipsum"} => await htmlResponse(<Ipsum_Page pathname=url.pathname />)
+    | _ => await notFoundResponse()
     }
   },
 })
 
 Console.log(`Listening on ${url(server)}`)
-
-// let log = any => RescriptBun.Bun.inspect(any, ~options={colors: true, depth: 10.0})->Console.log
-
-// Console.log("########################")
-
-// Console.log(
-//   await Renderer.render(
-//     <App title="hello world">
-//       <button> {JSX.string("click me")} </button>
-//     </App>,
-//     true,
-//   ),
-// )
-
-// let routes = Routes.routes
-
-// @module("../../src/build.mts")
-// external buildPages: array<string> => unit = "buildPages"
-
-// buildPages(Routes.routes)
-
-// // %%raw(`
-// //   import { buildPages } from "../../src/build.mts";
-
-// //   buildPages(routes)
-// // `)

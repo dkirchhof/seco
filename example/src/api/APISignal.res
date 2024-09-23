@@ -2,8 +2,8 @@ type state<'a> = Init | Loading | Success('a) | Error(string)
 
 let cancel = ref(None)
 
-let make = (fetcher, onChange) => {
-  let signal = Signal.make(Init, onChange)
+let make = (fetcher: 'a => promise<'b>, onChange) => {
+  let signal: Signal.t<state<'b>> = Signal.make(Init, onChange)
 
   let fetch = params => {
     switch cancel.contents {
@@ -28,7 +28,7 @@ let make = (fetcher, onChange) => {
       fetcher(params)
       ->Promise.thenResolve(result => {
         if !cancelled.contents {
-          Signal.setValue(signal, Success(result))
+          Signal.setValue(signal, Success(Obj.magic(result)))
         }
       })
       ->Promise.catch(_ => {

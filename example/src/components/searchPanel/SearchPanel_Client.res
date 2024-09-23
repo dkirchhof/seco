@@ -8,25 +8,28 @@ WebComponent.define({
     let input = DOMUtils.querySelector("input")->Option.getExn
     let list = DOMUtils.querySelector("ul")->Option.getExn
 
-    let (findPosts, resetPosts) = APISignal.make(API.findPosts, v => {
-      switch v {
-      | Init => DOMUtils.setInnerHTML(list, "Search for posts")
-      | Loading => DOMUtils.setInnerHTML(list, "Searching...")
-      | Success(posts) =>
-        let _ = DOMUtils.startViewTransition(document, () => {
-          let html = switch Array.length(posts) {
-          | 0 => "Nothing found"
-          | _ =>
-            posts
-            ->Array.map(post => `<li><a href="/blog/posts/${post.id}">${post.title}</a></li>`)
-            ->Array.join("")
-          }
+    let (findPosts, resetPosts) = APISignal.make(
+      query => ClientAPI.findPosts(query),
+      v => {
+        switch v {
+        | Init => DOMUtils.setInnerHTML(list, "Search for posts")
+        | Loading => DOMUtils.setInnerHTML(list, "Searching...")
+        | Success(posts) =>
+          let _ = DOMUtils.startViewTransition(document, () => {
+            let html = switch Array.length(posts) {
+            | 0 => "Nothing found"
+            | _ =>
+              posts
+              ->Array.map(post => `<li><a href="/blog/posts/${post.id}">${post.title}</a></li>`)
+              ->Array.join("")
+            }
 
-          DOMUtils.setInnerHTML(list, html)
-        })
-      | Error(message) => DOMUtils.setInnerHTML(list, message)
-      }
-    })
+            DOMUtils.setInnerHTML(list, html)
+          })
+        | Error(message) => DOMUtils.setInnerHTML(list, message)
+        }
+      },
+    )
 
     let openDialog = () => {
       DOMUtils.setValue(input, "")
