@@ -1,5 +1,3 @@
-let dialogOpen = ref(false)
-
 WebComponent.define({
   name: "search-panel",
   connect: () => {
@@ -7,6 +5,9 @@ WebComponent.define({
     let dialog = DOMUtils.querySelector("dialog")->Option.getExn
     let input = DOMUtils.querySelector("input")->Option.getExn
     let list = DOMUtils.querySelector("ul")->Option.getExn
+
+    let dialogOpen = ref(false)
+    let timeout = ref(None)
 
     let (findPosts, resetPosts) = APISignal.make(
       query => ClientAPI.findPosts(query),
@@ -74,9 +75,15 @@ WebComponent.define({
     })
 
     DOMUtils.addEventListener(input, "input", _ => {
-      let query = DOMUtils.getValue(input)
+      switch timeout.contents {
+      | Some(timeout) => clearTimeout(timeout)
+      | None => ()
+      }
 
-      findPosts(query)
+      timeout := Some(setTimeout(() => {
+            let query = DOMUtils.getValue(input)
+            findPosts(query)
+          }, 250))
     })
   },
 })
