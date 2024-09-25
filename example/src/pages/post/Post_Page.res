@@ -24,9 +24,6 @@ let make = ComponentP.make(async props => {
       })
       ->Jsx.array}
     </Page>
-  | None =>
-    <Page filename=RescriptBun.Global.filename pathname=props.pathname title="404">
-      <h1> {JSX.string("404")} </h1>
-    </Page>
+  | None => raise(Not_found)
   }
 })

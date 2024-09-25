@@ -7,13 +7,15 @@ let fileResponse = async path => {
   Bun.file(`./public/${path->List.toArray->Array.join("/")}`)->Response.makeFromFile
 }
 
-let notFoundResponse = async () => {
-  Response.make("not found", ~options={status: 404})
+let notFoundResponse = async (url: Url.t) => {
+  let html = await Renderer.render(<NotFound_Page pathname=url.pathname />, false)
+  let headers = HeadersInit.FromArray([("content-type", "text/html")])
+
+  Response.make(html, ~options={headers, status: 404})
 }
 
 let jsonResponse = async data => {
   let json = data->JSON.stringifyAny->Option.getExn
-
   let headers = HeadersInit.FromArray([("content-type", "application/json")])
 
   Response.make(json, ~options={headers: headers})
@@ -36,19 +38,23 @@ let server = Bun.serve({
       ->Array.filter(s => String.length(s) > 0)
       ->List.fromArray
 
-    switch path {
-    | list{"api", "findPosts"} =>
-      let query = url.searchParams.get("q")->Null.getOr("")
-      let posts = await API.findPosts(query)
+    try {
+      switch path {
+      | list{"api", "findPosts"} =>
+        let query = url.searchParams.get("q")->Null.getOr("")
+        let posts = await API.findPosts(query)
 
-      await jsonResponse(posts)
-    | list{"public", ...rest} => await fileResponse(rest)
-    | list{} => await htmlResponse(<Home_Page pathname=url.pathname />)
-    | list{"blog"} => await htmlResponse(<Blog_Page pathname=url.pathname />)
-    | list{"blog", "posts", id} => await htmlResponse(<Post_Page pathname=url.pathname id />)
-    | list{"lorem"} => await htmlResponse(<Lorem_Page pathname=url.pathname />)
-    | list{"ipsum"} => await htmlResponse(<Ipsum_Page pathname=url.pathname />)
-    | _ => await notFoundResponse()
+        await jsonResponse(posts)
+      | list{"public", ...rest} => await fileResponse(rest)
+      | list{} => await htmlResponse(<Home_Page pathname=url.pathname />)
+      | list{"blog"} => await htmlResponse(<Blog_Page pathname=url.pathname />)
+      | list{"blog", "posts", id} => await htmlResponse(<Post_Page pathname=url.pathname id />)
+      | list{"lorem"} => await htmlResponse(<Lorem_Page pathname=url.pathname />)
+      | list{"ipsum"} => await htmlResponse(<Ipsum_Page pathname=url.pathname />)
+      | _ => raise(Not_found)
+      }
+    } catch {
+    | Not_found => await notFoundResponse(url)
     }
   },
 })
