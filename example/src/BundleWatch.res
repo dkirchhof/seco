@@ -1,1 +1,1 @@
-Builder.buildWatch({ minify: false })
+Bundler.bundle({ minify: false, watch: true })
