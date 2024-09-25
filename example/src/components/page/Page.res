@@ -14,14 +14,17 @@ module Link = {
 }
 
 type props = {
+  filename: string,
   pathname: string,
   title: string,
-  style: option<string>,
-  script: option<string>,
   children: Jsx.element,
 }
 
 let make = ComponentP.make(async props => {
+  let assets = Dict.get(Assets.assets, props.filename)
+  let script = Option.flatMap(assets, a => a.script)->Option.getOr("")
+  let style = Option.flatMap(assets, a => a.style)->Option.getOr("")
+
   <>
     {Jsx.string("<!DOCTYPE html>")}
     <html lang="en">
@@ -29,8 +32,8 @@ let make = ComponentP.make(async props => {
         <title> {JSX.string(props.title)} </title>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" href={Option.getOr(props.style, "")} />
-        <script src={Option.getOr(props.script, "")} defer=true />
+        <link rel="stylesheet" href={style} />
+        <script src={script} defer=true />
       </head>
       <body>
         <header>

@@ -1,7 +1,7 @@
 type props = {pathname: string}
 
 let make = ComponentP.make(async props => {
-  <Page pathname=props.pathname title="DK" style=Assets.Home.style script=Assets.Home.script>
+  <Page filename=RescriptBun.Global.filename pathname=props.pathname title="DK">
     <h1> {JSX.string("DK")} </h1>
     <Text text="Gallery" />
     <Gallery

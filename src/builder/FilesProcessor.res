@@ -26,21 +26,21 @@ let processFile = async (~file, ~pageSuffix, ~outDir, ~minify) => {
 
   let pageAssets: SecoAssets.pageAssets = {script, style}
 
-  (pageName, pageAssets)
+  pageAssets
 }
 
 let processFiles = (~pageSuffix, ~outDir, ~minify) => async files => {
   await FS.rm(outDir, { recursive: true })
 
-  let assets: SecoAssets.t = Map.make()
+  let assets: SecoAssets.t = Dict.make()
 
   // pageFiles->Array.map(processFile(src, public, minify))->Promise.all
 
   for i in 0 to Array.length(files) - 1 {
     let file = Array.getUnsafe(files, i)
-    let (pageName, asset) = await processFile(~file, ~pageSuffix, ~outDir, ~minify)
+    let pageAssets = await processFile(~file, ~pageSuffix, ~outDir, ~minify)
 
-    Map.set(assets, pageName, asset)
+    Dict.set(assets, file, pageAssets)
   }
 
   assets

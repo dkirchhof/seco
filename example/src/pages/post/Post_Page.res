@@ -8,8 +8,7 @@ let make = ComponentP.make(async props => {
 
   switch post {
   | Some(post) =>
-    <Page
-      pathname=props.pathname title=post.title style=Assets.Post.style script=Assets.Post.script>
+    <Page filename=RescriptBun.Global.filename pathname=props.pathname title=post.title>
       <h1> {JSX.string(post.title)} </h1>
       <img class="headerImage" src=post.image />
       <div class="date"> {post.date->Date.fromString->Date.toLocaleDateString->JSX.string} </div>
@@ -26,7 +25,7 @@ let make = ComponentP.make(async props => {
       ->Jsx.array}
     </Page>
   | None =>
-    <Page pathname=props.pathname title="404" style=Assets.Post.style script=Assets.Post.script>
+    <Page filename=RescriptBun.Global.filename pathname=props.pathname title="404">
       <h1> {JSX.string("404")} </h1>
     </Page>
   }
