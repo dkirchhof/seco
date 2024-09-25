@@ -30,7 +30,7 @@ let htmlResponse = async element => {
 
 let server = Bun.serve({
   port: 3000,
-  fetch: async (req, _server) => {
+  fetch: (req, _server) => {
     let url = req->Request.url->Url.make
 
     let path =
@@ -42,19 +42,19 @@ let server = Bun.serve({
       switch path {
       | list{"api", "findPosts"} =>
         let query = url.searchParams.get("q")->Null.getOr("")
-        let posts = await API.findPosts(query)
+        let posts = API.findPosts(query)
 
-        await jsonResponse(posts)
-      | list{"public", ...rest} => await fileResponse(rest)
-      | list{} => await htmlResponse(<Home_Page pathname=url.pathname />)
-      | list{"blog"} => await htmlResponse(<Blog_Page pathname=url.pathname />)
-      | list{"blog", "posts", id} => await htmlResponse(<Post_Page pathname=url.pathname id />)
-      | list{"lorem"} => await htmlResponse(<Lorem_Page pathname=url.pathname />)
-      | list{"ipsum"} => await htmlResponse(<Ipsum_Page pathname=url.pathname />)
+        jsonResponse(posts)
+      | list{"public", ...rest} => fileResponse(rest)
+      | list{} => htmlResponse(<Home_Page pathname=url.pathname />)
+      | list{"blog"} => htmlResponse(<Blog_Page pathname=url.pathname />)
+      | list{"blog", "posts", id} => htmlResponse(<Post_Page pathname=url.pathname id />)
+      | list{"lorem"} => htmlResponse(<Lorem_Page pathname=url.pathname />)
+      | list{"ipsum"} => htmlResponse(<Ipsum_Page pathname=url.pathname />)
       | _ => raise(Not_found)
       }
     } catch {
-    | Not_found => await notFoundResponse(url)
+    | Not_found => notFoundResponse(url)
     }
   },
 })
