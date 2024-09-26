@@ -20,6 +20,7 @@ let make = ComponentP.make(async props => {
         | Text(text) => <Text text />
         | Quote({quote, quotee}) => <Quote quote quotee />
         | Separator => <Separator />
+        | Accordeon(items) => <Accordeon items />
         }
       })
       ->Jsx.array}

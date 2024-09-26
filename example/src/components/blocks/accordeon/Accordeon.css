@@ -1,0 +1,22 @@
+.block.accordeon {
+  >details {
+    >summary {
+      cursor: pointer;
+    }
+
+    &::details-content {
+      overflow: hidden;
+      opacity: 0;
+      height: 0;
+
+      interpolate-size: allow-keywords;
+      transition-behavior: allow-discrete;
+      transition-duration: .2s;
+    }
+
+    &[open]::details-content {
+      height: fit-content;
+      opacity: 1;
+    }
+  }
+}

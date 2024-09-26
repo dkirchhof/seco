@@ -4,6 +4,7 @@ type block =
   | Headline(headlineLevel, string)
   | Text(string)
   | Quote({quote: string, quotee: string})
+  | Accordeon(array<(string, string)>)
   | Separator()
 
 type t = {
