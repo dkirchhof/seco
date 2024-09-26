@@ -1,3 +1,7 @@
+@view-transition {
+	navigation: auto;
+}
+
 @keyframes header {
   0% {
     box-shadow: 0 0 1rem rgb(0 0 0 / 0%);
