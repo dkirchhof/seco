@@ -1,12 +1,24 @@
 @keyframes prevButton {
+  from {
+    opacity: 0;
+    pointer-events: none;
+  }
+
   to {
     opacity: 1;
+    pointer-events: all;
   }
 }
 
 @keyframes nextButton {
+  from {
+    opacity: 1;
+    pointer-events: all;
+  }
+
   to {
     opacity: 0;
+    pointer-events: none;
   }
 }
 
