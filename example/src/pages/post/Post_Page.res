@@ -9,18 +9,12 @@ let make = ComponentP.make(async props => {
   switch post {
   | Some(post) =>
     <Page filename=RescriptBun.Global.filename pathname=props.pathname title=post.title>
-      <h1 style={Obj.magic(`view-transition-name: title-${post.id};`)}>
-        {JSX.string(post.title)}
-      </h1>
-      <img
-        class="headerImage"
-        src=post.image
-        style={Obj.magic(`view-transition-name: image-${post.id};`)}
-      />
-      <div class="date" style={Obj.magic(`view-transition-name: date-${post.id};`)}>
+      <h1 style={`view-transition-name: title-${post.id};`}> {JSX.string(post.title)} </h1>
+      <img class="headerImage" src=post.image style={`view-transition-name: image-${post.id};`} />
+      <div class="date" style={`view-transition-name: date-${post.id};`}>
         {post.date->Date.fromString->Date.toLocaleDateString->JSX.string}
       </div>
-      <div style={Obj.magic(`view-transition-name: firstParagraph-${post.id};`)}>
+      <div style={`view-transition-name: firstParagraph-${post.id};`}>
         <Text text=post.firstParagraph />
       </div>
       {post.content

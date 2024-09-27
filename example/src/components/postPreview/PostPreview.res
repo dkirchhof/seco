@@ -8,18 +8,16 @@ let make = ComponentP.make(async props => {
   <article class>
     <a href={`/blog/posts/${props.post.id}`}>
       <img
-        src=props.post.image
-        loading=#"lazy"
-        style={Obj.magic(`view-transition-name: image-${props.post.id};`)}
+        src=props.post.image loading=#"lazy" style={`view-transition-name: image-${props.post.id};`}
       />
       <div>
-        <div class="date" style={Obj.magic(`view-transition-name: date-${props.post.id};`)}>
+        <div class="date" style={`view-transition-name: date-${props.post.id};`}>
           {props.post.date->Date.fromString->Date.toLocaleDateString->JSX.string}
         </div>
-        <h2 style={Obj.magic(`view-transition-name: title-${props.post.id};`)}>
+        <h2 style={`view-transition-name: title-${props.post.id};`}>
           {props.post.title->JSX.string}
         </h2>
-        <p style={Obj.magic(`view-transition-name: firstParagraph-${props.post.id};`)}>
+        <p style={`view-transition-name: firstParagraph-${props.post.id};`}>
           {props.post.firstParagraph->JSX.string}
         </p>
       </div>

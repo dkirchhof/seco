@@ -8,10 +8,7 @@ let jsxs = JSX_Impl.createElement
 let jsxFragment = JSX_Impl.fragment
 
 module Elements = {
-  type props = {
-    ...JsxDOM.domProps,
-    class?: string,
-  }
+  type props = DOM.props
 
   let jsx = JSX_Impl.createTag
   let jsxs = JSX_Impl.createTag

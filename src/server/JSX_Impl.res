@@ -1,8 +1,3 @@
-type props = {
-  ...JsxDOM.domProps,
-  class?: string,
-}
-
 type propsAndChildren<'props> = {
   props: 'props,
   children: array<Node.t<'props>>,
@@ -43,7 +38,7 @@ let createElement = (component: Element.t<'props>, props: 'props) => {
   }
 }
 
-let createTag = (tag: string, props: props): Jsx.element => {
+let createTag = (tag: string, props: DOM.props): Jsx.element => {
   handleProps(props)
 
   Node.Tag({
