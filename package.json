@@ -2,6 +2,7 @@
   "name": "seco",
   "type": "module",
   "scripts": {
+    "res": "rescript build",
     "dev:res": "rescript build -w"
   },
   "dependencies": {
