@@ -1,7 +1,10 @@
-type props = {pathname: string}
+type props = {
+  getPosts: GetPosts.t,
+  pathname: string,
+}
 
 let make = ComponentP.make(async props => {
-  let posts = await API.getPosts()
+  let posts = await props.getPosts()
 
   <Page filename=RescriptBun.Global.filename pathname=props.pathname title="Blog">
     <h1> {JSX.string("This is a Blog")} </h1>

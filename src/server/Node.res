@@ -1,20 +1,20 @@
-type rec componentNode<'props> = {
+type componentNode<'props> = {
   tag: 'props => promise<Jsx.element>,
   props: 'props,
 }
 
-and fragmentNode<'props> = {
+type fragmentNode<'props> = {
   props: 'props,
 }
 
-and tagNode<'props> = {
+type tagNode<'props> = {
   tag: string,
   props: 'props,
 }
 
-and textNode = {text: string}
+type textNode = {text: string}
 
-and t<'props> =
+type t<'props> =
   | Component(componentNode<'props>)
   | Fragment(fragmentNode<'props>)
   | Tag(tagNode<'props>)

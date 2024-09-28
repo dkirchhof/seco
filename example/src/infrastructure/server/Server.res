@@ -3,6 +3,7 @@ open RescriptBun.Globals
 
 @get external url: Bun.Server.t => string = "url"
 
+// helpers
 let fileResponse = async path => {
   Bun.file(`./public/${path->List.toArray->Array.join("/")}`)->Response.makeFromFile
 }
@@ -28,6 +29,11 @@ let htmlResponse = async element => {
   Response.make(html, ~options={headers: headers})
 }
 
+// use cases
+let getPost = GetPost.make(InMemoryDB.getPost)
+let getPosts = GetPosts.make(InMemoryDB.getPosts)
+let findPosts = FindPosts.make(InMemoryDB.findPosts)
+
 let server = Bun.serve({
   port: 3000,
   fetch: (req, _server) => {
@@ -42,13 +48,11 @@ let server = Bun.serve({
       switch path {
       | list{"api", "findPosts"} =>
         let query = url.searchParams.get("q")->Null.getOr("")
-        let posts = API.findPosts(query)
-
-        jsonResponse(posts)
+        findPosts({query: query})->Promise.then(jsonResponse)
       | list{"public", ...rest} => fileResponse(rest)
       | list{} => htmlResponse(<Home_Page pathname=url.pathname />)
-      | list{"blog"} => htmlResponse(<Blog_Page pathname=url.pathname />)
-      | list{"blog", "posts", id} => htmlResponse(<Post_Page pathname=url.pathname id />)
+      | list{"blog"} => htmlResponse(<Blog_Page getPosts pathname=url.pathname />)
+      | list{"blog", "posts", id} => htmlResponse(<Post_Page getPost pathname=url.pathname id />)
       | list{"lorem"} => htmlResponse(<Lorem_Page pathname=url.pathname />)
       | list{"ipsum"} => htmlResponse(<Ipsum_Page pathname=url.pathname />)
       | _ => raise(Not_found)

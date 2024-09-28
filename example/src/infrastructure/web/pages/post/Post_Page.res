@@ -1,10 +1,11 @@
 type props = {
+  getPost: GetPost.t,
   pathname: string,
   id: string,
 }
 
 let make = ComponentP.make(async props => {
-  let post = await API.getPost(props.id)
+  let post = await props.getPost({ id: props.id })
 
   switch post {
   | Some(post) =>

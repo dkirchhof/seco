@@ -1,1 +1,1 @@
-Bundler.bundle({ minify: false, watch: false })
+Bundler.bundle({ minify: true, watch: false })

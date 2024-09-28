@@ -258,10 +258,5 @@ let getPost = async id => {
 }
 
 let findPosts = async query => {
-  let lower = String.toLowerCase(query)
-
-  switch lower {
-  | "" => []
-  | _ => posts->Array.filter(post => post.title->String.toLowerCase->String.includes(lower))
-  }
+  posts->Array.filter(post => post.title->String.toLowerCase->String.includes(query))
 }

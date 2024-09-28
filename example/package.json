@@ -1,7 +1,8 @@
 {
   "scripts": {
     "bundle": "bun src/Bundle.mjs",
-    "dev:bundle": "bun src/BundleWatch.mjs",
-    "dev:server": "bun --hot src/index.mjs"
+    "server": "bun src/infrastructure/server/Server.mjs",
+    "dev:bundle": "bun src/BundleDev.mjs",
+    "dev:server": "bun --hot src/infrastructure/server/Server.mjs"
   }
 }
