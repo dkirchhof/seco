@@ -12,6 +12,10 @@ let makeNotFoundHtmlResponse = async element => {
   RescriptBun.Globals.Response.make(html, ~options={headers, status: 404})
 }
 
+let makeNotFoundTextResponse = async text => {
+  RescriptBun.Globals.Response.make(text, ~options={status: 404})
+}
+
 let makeFileResponse = async path => {
   let file = RescriptBun.Bun.file(`./${path}`)
 

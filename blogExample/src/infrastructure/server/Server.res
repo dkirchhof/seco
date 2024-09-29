@@ -17,10 +17,11 @@ let server = Bun.serve({
 
     try {
       switch path {
+      | list{"public", ..._} => Response.makeFileResponse(url.pathname)
       | list{"api", "findPosts"} =>
         let query = url.searchParams.get("q")->Null.getOr("")
-        findPosts({query: query})->Response.makeJsonResponse
-      | list{"public", ..._} => Response.makeFileResponse(url.pathname)
+
+        Response.makeJsonResponse(findPosts({query: query}))
       | list{} => Response.makeHtmlResponse(<Home_Page />)
       | list{"blog"} => Response.makeHtmlResponse(<Blog_Page getPosts />)
       | list{"blog", "posts", id} => Response.makeHtmlResponse(<Post_Page getPost id />)

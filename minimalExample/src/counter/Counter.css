@@ -1,0 +1,22 @@
+x-counter {
+  display: grid;
+  grid-template-columns: 3ch 5rem;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+
+  >div {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  >button {
+    padding: 0.25rem 0.5rem;
+
+    background: none;
+    border: 1px solid #dddddd;
+    border-radius: 1rem;
+
+    cursor: pointer;
+  }
+}
