@@ -5,7 +5,7 @@ type block =
   | Text(string)
   | Quote({quote: string, quotee: string})
   | Accordeon(array<(string, string)>)
-  | Separator()
+  | Separator
 
 type t = {
   id: string,
@@ -15,4 +15,18 @@ type t = {
   date: string,
   firstParagraph: string,
   content: array<block>,
+}
+
+let toJson: t => JSON.t = post => {
+  // Dict.fromArray([
+  //   ("id", JSON.Encode.string(post.id)),
+  //   ("slug", JSON.Encode.string(post.id)),
+  //   ("title", JSON.Encode.string(post.id)),
+  //   ("image", JSON.Encode.string(post.id)),
+  //   ("date", JSON.Encode.string(post.id)),
+  //   ("firstParagraph", JSON.Encode.string(post.id)),
+  //   ("content", JSON.Encode.string(post.id)),
+  // ])
+
+  post->Obj.magic
 }

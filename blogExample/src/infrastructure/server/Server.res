@@ -21,7 +21,9 @@ let server = Bun.serve({
       | list{"api", "findPosts"} =>
         let query = url.searchParams.get("q")->Null.getOr("")
 
-        Response.makeJsonResponse(findPosts({query: query}))
+        findPosts({query: query})->Promise.then(posts => {
+          posts->Array.map(Post.toJson)->JSON.Encode.array->Response.makeJsonResponse
+        })
       | list{} => Response.makeHtmlResponse(<Home_Page />)
       | list{"blog"} => Response.makeHtmlResponse(<Blog_Page getPosts />)
       | list{"blog", "posts", id} => Response.makeHtmlResponse(<Post_Page getPost id />)
