@@ -15,7 +15,6 @@ module Link = {
 
 type props = {
   filename: string,
-  pathname: string,
   title: string,
   children: Jsx.element,
 }
@@ -24,6 +23,8 @@ let make = ComponentP.make(async props => {
   let assets = Dict.get(Assets.assets, props.filename)
   let script = Option.flatMap(assets, a => a.script)->Option.getOr("")
   let style = Option.flatMap(assets, a => a.style)->Option.getOr("")
+
+  let url = Context.getRequest()->RescriptBun.Globals.Request.url->RescriptBun.Url.make
 
   <>
     {Jsx.string("<!DOCTYPE html>")}
@@ -38,10 +39,10 @@ let make = ComponentP.make(async props => {
       <body>
         <header>
           <nav>
-            <Link name="DK" pathname="/" currentPathname=props.pathname />
-            <Link name="Blog" pathname="/blog" currentPathname=props.pathname />
-            <Link name="Lorem" pathname="/lorem" currentPathname=props.pathname />
-            <Link name="Ipsum" pathname="/ipsum" currentPathname=props.pathname />
+            <Link name="DK" pathname="/" currentPathname=url.pathname />
+            <Link name="Blog" pathname="/blog" currentPathname=url.pathname />
+            <Link name="Lorem" pathname="/lorem" currentPathname=url.pathname />
+            <Link name="Ipsum" pathname="/ipsum" currentPathname=url.pathname />
           </nav>
           <SearchPanel />
         </header>

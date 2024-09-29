@@ -8,8 +8,8 @@ let fileResponse = async path => {
   Bun.file(`./public/${path->List.toArray->Array.join("/")}`)->Response.makeFromFile
 }
 
-let notFoundResponse = async (url: Url.t) => {
-  let html = await Renderer.render(<NotFound_Page pathname=url.pathname />, false)
+let notFoundResponse = async () => {
+  let html = await Renderer.render(<NotFound_Page />, false)
   let headers = HeadersInit.FromArray([("content-type", "text/html")])
 
   Response.make(html, ~options={headers, status: 404})
@@ -37,6 +37,8 @@ let findPosts = FindPosts.make(InMemoryDB.findPosts)
 let server = Bun.serve({
   port: 3000,
   fetch: (req, _server) => {
+    Context.setRequest(req)
+
     let url = req->Request.url->Url.make
 
     let path =
@@ -50,15 +52,15 @@ let server = Bun.serve({
         let query = url.searchParams.get("q")->Null.getOr("")
         findPosts({query: query})->Promise.then(jsonResponse)
       | list{"public", ...rest} => fileResponse(rest)
-      | list{} => htmlResponse(<Home_Page pathname=url.pathname />)
-      | list{"blog"} => htmlResponse(<Blog_Page getPosts pathname=url.pathname />)
-      | list{"blog", "posts", id} => htmlResponse(<Post_Page getPost pathname=url.pathname id />)
-      | list{"lorem"} => htmlResponse(<Lorem_Page pathname=url.pathname />)
-      | list{"ipsum"} => htmlResponse(<Ipsum_Page pathname=url.pathname />)
+      | list{} => htmlResponse(<Home_Page />)
+      | list{"blog"} => htmlResponse(<Blog_Page getPosts />)
+      | list{"blog", "posts", id} => htmlResponse(<Post_Page getPost id />)
+      | list{"lorem"} => htmlResponse(<Lorem_Page />)
+      | list{"ipsum"} => htmlResponse(<Ipsum_Page />)
       | _ => raise(Not_found)
       }
     } catch {
-    | Not_found => notFoundResponse(url)
+    | Not_found => notFoundResponse()
     }
   },
 })
