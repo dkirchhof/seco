@@ -23,6 +23,7 @@ let handleProps = props => {
 }
 
 let createElement = (component: Element.t<'props>, props: 'props) => {
+  Console.log(props)
   handleProps(props)
 
   switch component {

@@ -1,15 +1,9 @@
-type props = {
-  getPost: GetPost.t,
-  pathname: string,
-  id: string,
-}
+type props = {post: option<Post.t>}
 
 let make = ComponentP.make(async props => {
-  let post = await props.getPost({ id: props.id })
-
-  switch post {
+  switch props.post {
   | Some(post) =>
-    <Page filename=RescriptBun.Global.filename pathname=props.pathname title=post.title>
+    <Page filename=RescriptBun.Global.filename title=post.title>
       <h1 style={`view-transition-name: title-${post.id};`}> {JSX.string(post.title)} </h1>
       <img class="headerImage" src=post.image style={`view-transition-name: image-${post.id};`} />
       <div class="date" style={`view-transition-name: date-${post.id};`}>
@@ -33,3 +27,5 @@ let make = ComponentP.make(async props => {
   | None => raise(Not_found)
   }
 })
+
+let toResponse = post => ResponseUtils.htmlResponse(make, {post: post})

@@ -8,35 +8,27 @@ let fileResponse = async path => {
   Bun.file(`./public/${path->List.toArray->Array.join("/")}`)->Response.makeFromFile
 }
 
-let notFoundResponse = async (url: Url.t) => {
-  let html = await Renderer.render(<NotFound_Page pathname=url.pathname />, false)
+let notFoundResponse = async () => {
+  let html = await Renderer.render(<NotFound_Page />, false)
   let headers = HeadersInit.FromArray([("content-type", "text/html")])
 
   Response.make(html, ~options={headers, status: 404})
 }
 
-let jsonResponse = async data => {
-  let json = data->JSON.stringifyAny->Option.getExn
-  let headers = HeadersInit.FromArray([("content-type", "application/json")])
-
-  Response.make(json, ~options={headers: headers})
-}
-
-let htmlResponse = async element => {
-  let html = await Renderer.render(element, false)
-  let headers = HeadersInit.FromArray([("content-type", "text/html")])
-
-  Response.make(html, ~options={headers: headers})
-}
-
 // use cases
-let getPost = GetPost.make(InMemoryDB.getPost)
-let getPosts = GetPosts.make(InMemoryDB.getPosts)
-let findPosts = FindPosts.make(InMemoryDB.findPosts)
+let findPosts = FindPosts.make(InMemoryDB.findPosts, ResponseUtils.jsonResponse)
+
+let renderHome = RenderHome.make(Home_Page.toResponse)
+let renderPost = RenderPost.make(InMemoryDB.getPost, Post_Page.toResponse)
+let renderPosts = RenderPosts.make(InMemoryDB.getPosts, Blog_Page.toResponse)
+let renderLorem = RenderLorem.make(Lorem_Page.toResponse)
+let renderIpsum = RenderIpsum.make(Ipsum_Page.toResponse)
 
 let server = Bun.serve({
   port: 3000,
   fetch: (req, _server) => {
+    Context.setRequest(req)
+
     let url = req->Request.url->Url.make
 
     let path =
@@ -48,17 +40,17 @@ let server = Bun.serve({
       switch path {
       | list{"api", "findPosts"} =>
         let query = url.searchParams.get("q")->Null.getOr("")
-        findPosts({query: query})->Promise.then(jsonResponse)
+        findPosts({query: query})
       | list{"public", ...rest} => fileResponse(rest)
-      | list{} => htmlResponse(<Home_Page pathname=url.pathname />)
-      | list{"blog"} => htmlResponse(<Blog_Page getPosts pathname=url.pathname />)
-      | list{"blog", "posts", id} => htmlResponse(<Post_Page getPost pathname=url.pathname id />)
-      | list{"lorem"} => htmlResponse(<Lorem_Page pathname=url.pathname />)
-      | list{"ipsum"} => htmlResponse(<Ipsum_Page pathname=url.pathname />)
+      | list{} => renderHome()
+      | list{"blog"} => renderPosts()
+      | list{"blog", "posts", id} => renderPost({id: id})
+      | list{"lorem"} => renderLorem()
+      | list{"ipsum"} => renderIpsum()
       | _ => raise(Not_found)
       }
     } catch {
-    | Not_found => notFoundResponse(url)
+    | Not_found => notFoundResponse()
     }
   },
 })

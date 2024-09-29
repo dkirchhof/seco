@@ -1,7 +1,5 @@
-type props = {pathname: string}
-
-let make = ComponentP.make(async props => {
-  <Page filename=RescriptBun.Global.filename pathname=props.pathname title="DK">
+let make = Component.make(async _ => {
+  <Page filename=RescriptBun.Global.filename title="DK">
     <h1> {JSX.string("DK")} </h1>
     <Text text="Gallery" />
     <Gallery
@@ -23,3 +21,5 @@ let make = ComponentP.make(async props => {
     />
   </Page>
 })
+
+let toResponse = () => ResponseUtils.htmlResponse(make, {})

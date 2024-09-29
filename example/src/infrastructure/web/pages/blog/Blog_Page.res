@@ -1,15 +1,10 @@
-type props = {
-  getPosts: GetPosts.t,
-  pathname: string,
-}
+type props = {posts: array<Post.t>}
 
 let make = ComponentP.make(async props => {
-  let posts = await props.getPosts()
-
-  <Page filename=RescriptBun.Global.filename pathname=props.pathname title="Blog">
+  <Page filename=RescriptBun.Global.filename title="Blog">
     <h1> {JSX.string("This is a Blog")} </h1>
     <div class="posts">
-      {posts
+      {props.posts
       ->Array.mapWithIndex((post, i) => {
         <PostPreview post variant={i === 0 ? Big : Small} />
       })
@@ -17,3 +12,5 @@ let make = ComponentP.make(async props => {
     </div>
   </Page>
 })
+
+let toResponse = posts => ResponseUtils.htmlResponse(make, {posts: posts})
