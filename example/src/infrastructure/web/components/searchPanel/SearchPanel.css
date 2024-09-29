@@ -28,8 +28,12 @@ search-panel {
     background: none;
     border: none;
 
+    view-transition-name: search-panel-dialog;
+
     &::backdrop {
       background: rgba(0, 0, 0, 0.6);
+
+      view-transition-name: search-panel-dialog-backdrop;
     }
 
     >.inner {
