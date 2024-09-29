@@ -7,7 +7,7 @@
       "subdirs": true
     },
     {
-      "dir": "minimalExample/src",
+      "dir": "blogExample/src",
       "subdirs": true,
       "type": "dev"
     }

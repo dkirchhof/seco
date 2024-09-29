@@ -1,4 +1,4 @@
-type options = {minify: bool, watch: bool}
+type options = {minify: bool, watch: bool, assetMapDir: string}
 
 module Internal = {
   type process
@@ -9,7 +9,7 @@ module Internal = {
   let bundle = options => {
     let srcDir = RescriptBun.Path.resolve(["./src"])
     let outDir = RescriptBun.Path.resolve(["./public/seco"])
-    let assetMapPath = RescriptBun.Path.resolve(["./src/assetMap.mjs"])
+    let assetMapPath = RescriptBun.Path.resolve([options.assetMapDir, "assetMap.mjs"])
     let pageSuffix = "_Page.mjs"
 
     let _ =

@@ -1,1 +1,1 @@
-Bundler.bundle({ minify: false, watch: true })
+Bundler.bundle({minify: false, watch: true, assetMapDir: "./src"})
