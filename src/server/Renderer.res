@@ -103,15 +103,6 @@ let rec toString = async (node: Nullable.t<Node.t<_>>) => {
   )
 }
 
-@module("simply-beautiful")
-external formatHtml: string => string = "html"
-
-let render = async (element: Jsx.element, beautify: bool) => {
-  let html = await element->Obj.magic->toString
-
-  if beautify {
-    formatHtml(html)
-  } else {
-    html
-  }
+let render = async (element: Jsx.element) => {
+  await element->Obj.magic->toString
 }
