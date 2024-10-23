@@ -95,15 +95,15 @@ You have to start 3 processes, the ReScript compiler, the bundler and the server
 
 The commands could look like this in production:
 
-1. ReScript compiler: `$ rescript build`
-2. Bundler: `$ bun src/Bundle.mjs`
-3. Server: `$ bun src/Server.mjs`
+1. ReScript compiler: `rescript build`
+2. Bundler: `bun src/Bundle.mjs`
+3. Server: `bun src/Server.mjs`
 
 Or like this in dev:
 
-1. ReScript compiler: `$ rescript build -w`
-2. Bundler: `$ bun src/BundleDev.mjs`
-3. Server: `$ bun --hot src/Server.mjs`
+1. ReScript compiler: `rescript build -w`
+2. Bundler: `bun src/BundleDev.mjs`
+3. Server: `bun --hot src/Server.mjs`
 
 ### Server
 
@@ -226,3 +226,21 @@ let assets = Dict.get(Assets.assets, filename)
 let script = Option.flatMap(assets, a => a.script)->Option.getOr("")
 let style = Option.flatMap(assets, a => a.style)->Option.getOr("")
 ```
+
+### Demo
+
+There are two demos in this project. A minimal example and a blog example.
+Reference the source files of the demo, you want to test, in the `rescript.json` file.
+
+Todo: use Rewatch when this [issue](https://github.com/rescript-lang/rewatch/issues/130) is fixed.
+
+Run the following commands to start a demo in dev mode:
+
+```sh
+bun dev:res
+cd blogExample && blogExample bun dev:bundle
+cd blogExample && blogExample bun dev:server
+```
+
+> [!NOTE]
+> The blog example uses some new (experimental) web features, which are only available in chrome.
