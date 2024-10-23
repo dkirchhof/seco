@@ -1,12 +1,12 @@
-open RescriptBun
+module Bun = RescriptBun.Bun
 
-@get external url: Bun.Server.t => string = "url"
+@get external url: RescriptBun.Bun.Server.t => string = "url"
 
 let server = Bun.serve({
   port: 3000,
   fetch: (req, _server) => {
     let url = Request.getUrl(req)
-    let path = Request.getPath(url)
+    let path = Url.pathnameToList(url.pathname)
 
     try {
       switch path {

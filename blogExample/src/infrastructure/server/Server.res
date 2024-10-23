@@ -1,4 +1,4 @@
-open RescriptBun
+module Bun = RescriptBun.Bun
 
 @get external url: Bun.Server.t => string = "url"
 
@@ -13,7 +13,7 @@ let server = Bun.serve({
     Context.setRequest(req)
 
     let url = Request.getUrl(req)
-    let path = Request.getPath(url)
+    let path = Url.pathnameToList(url.pathname)
 
     try {
       switch path {
