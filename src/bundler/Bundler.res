@@ -25,8 +25,8 @@ module Internal = {
 
     let watcher = Watcher.watch(srcDir, {recursive: true}, (_event, filename) => {
       if (
-        filename !== "assetMap.mjs" &&
-          (String.endsWith(filename, ".mjs") || String.endsWith(filename, ".css~"))
+        !String.endsWith(filename, "assetMap.mjs") &&
+        (String.endsWith(filename, ".mjs") || String.endsWith(filename, ".css~"))
       ) {
         Console.log(`Detected changes in file ${filename} => Rebuild...`)
 
