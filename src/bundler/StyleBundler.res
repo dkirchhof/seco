@@ -29,28 +29,25 @@ let bundle = async (pageName, styleFiles, outDir, minify) => {
       ~input=Bun.Write.Input.fromString(content),
     )
 
-    let result = LightningCSS.bundle({
-      filename: tmpPath,
-      targets: {
-        chrome: 128,
-      },
-      minify,
+    let result = await Bun.build({
+      entrypoints: [tmpPath],
+      outdir: outDir,
+      naming: String(`${pageName}-[hash].css`),
+      minify: Bool(minify),
     })
 
-    let hash = result.code->uint8ArrayToBuffer->Obj.magic->Bun.Hash.hashArrayBuffer->Float.toString
+    if result.success {
+      let result' = result.outputs->Array.getUnsafe(0)
+      let relativePath = Path.relative(~from="", ~to_=result'.path)
 
-    let path = `${outDir}/${pageName}-${hash}.css`
+      Console.log("style  ")
 
-    let _ = await Bun.Write.write(
-      ~destination=Bun.Write.Destination.fromPath(path),
-      ~input=Bun.Write.Input.fromTypedArray(result.code->Obj.magic),
-    )
+      Some(`/${relativePath}`)
+    } else {
+      Console.error("style  ")
 
-    let relativePath = Path.relative(~from="", ~to_=path)
-
-    Console.log("style  ")
-
-    Some(`/${relativePath}`)
+      None
+    }
   } else {
     None
   }
