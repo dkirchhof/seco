@@ -1,8 +1,8 @@
 WebComponent.define({
   name: "x-counter",
-  connect: () => {
-    let counter = DOMUtils.querySelector(".counter")->Option.getOrThrow
-    let button = DOMUtils.querySelector("button")->Option.getOrThrow
+  connect: (self) => {
+    let counter = DOMUtils.querySelector(self, ".counter")->Option.getUnsafe
+    let button = DOMUtils.querySelector(self, "button")->Option.getUnsafe
 
     let count = counter->DOMUtils.getText->Int.fromString->Option.getOr(0)->ref
 

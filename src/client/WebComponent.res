@@ -1,7 +1,7 @@
 type options = {
   name: string,
-  connect?: unit => unit,
-  disconnect?: unit => unit,
+  connect?: Dom.element => unit,
+  disconnect?: Dom.element => unit,
 }
 
 let define: options => unit = %ffi(`
@@ -13,13 +13,13 @@ function(options) {
       }
 
       if (options.connect) {
-        options.connect.call(this);
+        options.connect(this);
       }
     }
 
     disconnectedCallback() {
       if (options.disconnect) {
-        options.disconnect.call(this);
+        options.disconnect(this);
       }
     }
   }

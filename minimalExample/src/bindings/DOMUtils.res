@@ -1,4 +1,4 @@
-external querySelector: string => option<Dom.element> = "this.querySelector"
+@send external querySelector: (Dom.element, string) => option<Dom.element> = "querySelector"
 
 @send external addEventListener: (Dom.element, string, JsxEvent.synthetic<_> => unit) => unit = "addEventListener"
 
