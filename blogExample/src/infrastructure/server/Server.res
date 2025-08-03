@@ -29,7 +29,7 @@ let server = Bun.serve({
       | list{"blog", "posts", id} => Response.makeHtmlResponse(<Post_Page getPost id />)
       | list{"lorem"} => Response.makeHtmlResponse(<Lorem_Page />)
       | list{"ipsum"} => Response.makeHtmlResponse(<Ipsum_Page />)
-      | _ => raise(Not_found)
+      | _ => throw(Not_found)
       }
     } catch {
     | Not_found => Response.makeNotFoundHtmlResponse(<NotFound_Page />)

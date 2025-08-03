@@ -29,6 +29,6 @@ let make = ComponentP.make(async props => {
       })
       ->Jsx.array}
     </Page>
-  | None => raise(Not_found)
+  | None => throw(Not_found)
   }
 })
