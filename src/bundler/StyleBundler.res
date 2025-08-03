@@ -37,13 +37,13 @@ let bundle = async (pageName, styleFiles, outDir, minify) => {
       minify,
     })
 
-    let hash = result.code->uint8ArrayToBuffer->Bun.Hash.hashArrayBuffer->Float.toString
+    let hash = result.code->uint8ArrayToBuffer->Obj.magic->Bun.Hash.hashArrayBuffer->Float.toString
 
     let path = `${outDir}/${pageName}-${hash}.css`
 
     let _ = await Bun.Write.write(
       ~destination=Bun.Write.Destination.fromPath(path),
-      ~input=Bun.Write.Input.fromTypedArray(result.code),
+      ~input=Bun.Write.Input.fromTypedArray(result.code->Obj.magic),
     )
 
     let relativePath = Path.relative(~from="", ~to_=path)

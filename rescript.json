@@ -7,7 +7,7 @@
       "subdirs": true
     },
     {
-      "dir": "blogExample/src",
+      "dir": "minimalExample/src",
       "subdirs": true,
       "type": "dev"
     }
@@ -19,12 +19,8 @@
     }
   ],
   "suffix": ".mjs",
-  "bs-dependencies": [
-    "@rescript/core",
+  "dependencies": [
     "rescript-bun"
-  ],
-  "bsc-flags": [
-    "-open RescriptCore"
   ],
   "jsx": {
     "module": "JSX"

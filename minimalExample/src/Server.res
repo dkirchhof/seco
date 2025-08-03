@@ -12,7 +12,7 @@ let server = Bun.serve({
       switch path {
       | list{"public", ..._} => Response.makeFileResponse(url.pathname)
       | list{} => Response.makeHtmlResponse(<Counter_Page />)
-      | _ => raise(Not_found)
+      | _ => throw(Not_found)
       }
     } catch {
     | Not_found => Response.makeNotFoundTextResponse("url not found")
