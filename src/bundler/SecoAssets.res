@@ -7,7 +7,7 @@ type pageAssets = {
 
 type t = Dict.t<pageAssets>
 
-let writeFile = assetMapPath => async assets => {
+let writeFile = async (assets, assetMapPath) => {
   let stringBuilder = [`export const assets = {`]
 
   assets

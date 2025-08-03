@@ -6,22 +6,37 @@ module Internal = {
   @val external process: process = "process"
   @send external on: (process, string, unit => unit) => unit = "on"
 
-  let bundle = options => {
+  let ensureAssetMapFile = async path => {
+    open RescriptBun
+
+    let exists = await Bun.file(path)->Bun.BunFile.exists
+
+    if !exists {
+      let _ = await Bun.Write.write(
+        ~destination=Bun.Write.Destination.fromPath(path),
+        ~input=Bun.Write.Input.fromString(""),
+      )
+    }
+  }
+
+  let bundle = async options => {
     let srcDir = RescriptBun.Path.resolve(["./src"])
     let outDir = RescriptBun.Path.resolve(["./public/seco"])
     let assetMapPath = RescriptBun.Path.resolve([options.assetMapDir, "assetMap.mjs"])
     let pageSuffix = "_Page.mjs"
 
-    let _ =
-      PageFiles.get(~srcDir, ~pageSuffix)
-      ->Promise.then(FilesProcessor.processFiles(~pageSuffix, ~outDir, ~minify=options.minify))
-      ->Promise.thenResolve(SecoAssets.writeFile(assetMapPath))
+    await ensureAssetMapFile(assetMapPath)
+
+    let files = await PageFiles.get(~srcDir, ~pageSuffix)
+    let pageAssets = await FilesProcessor.processFiles(~files, ~pageSuffix, ~outDir, ~minify=options.minify)
+
+    await SecoAssets.writeFile(pageAssets, assetMapPath)
   }
 
   let bundleWatch = (options: options) => {
     let srcDir = RescriptBun.Path.resolve(["./src"])
 
-    bundle(options)
+    bundle(options)->ignore
 
     let watcher = Watcher.watch(srcDir, {recursive: true}, (_event, filename) => {
       if (
@@ -30,7 +45,7 @@ module Internal = {
       ) {
         Console.log(`Detected changes in file ${filename} => Rebuild...`)
 
-        bundle(options)
+        bundle(options)->ignore
       }
     })
 
@@ -46,6 +61,6 @@ module Internal = {
 let bundle = options => {
   switch options.watch {
   | true => Internal.bundleWatch(options)
-  | false => Internal.bundle(options)
+  | false => Internal.bundle(options)->ignore
   }
 }

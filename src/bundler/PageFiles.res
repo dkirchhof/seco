@@ -5,8 +5,10 @@ module FS = {
   external readDir: (string, options) => promise<array<string>> = "readdir"
 }
 
-let get = (~srcDir, ~pageSuffix) => {
-  FS.readDir(srcDir, {recursive: true})
-  ->Promise.thenResolve(Array.filter(_, file => file->String.endsWith(pageSuffix)))
-  ->Promise.thenResolve(Array.map(_, r => RescriptBun.Path.resolve([srcDir, r])))
+let get = async (~srcDir, ~pageSuffix) => {
+  let files = await FS.readDir(srcDir, {recursive: true})
+
+  files
+  ->Array.filter(file => file->String.endsWith(pageSuffix))
+  ->Array.map(_, r => RescriptBun.Path.resolve([srcDir, r]))
 }

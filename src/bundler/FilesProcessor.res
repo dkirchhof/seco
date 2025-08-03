@@ -1,5 +1,5 @@
 module FS = {
-  type options = {recursive: bool}
+  type options = {recursive: bool, force: bool}
 
   @module("fs/promises")
   external rm: (string, options) => promise<unit> = "rm"
@@ -29,8 +29,8 @@ let processFile = async (~file, ~pageSuffix, ~outDir, ~minify) => {
   pageAssets
 }
 
-let processFiles = (~pageSuffix, ~outDir, ~minify) => async files => {
-  await FS.rm(outDir, { recursive: true })
+let processFiles = async (~files, ~pageSuffix, ~outDir, ~minify) => {
+  await FS.rm(outDir, { recursive: true, force: true })
 
   let assets: SecoAssets.t = Dict.make()
 

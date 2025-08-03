@@ -238,8 +238,8 @@ Run the following commands to start a demo in dev mode:
 
 ```sh
 bun dev:res
-cd blogExample && blogExample bun dev:bundle
-cd blogExample && blogExample bun dev:server
+cd blogExample && bun dev:bundle
+cd blogExample && bun dev:server
 ```
 
 > [!NOTE]
