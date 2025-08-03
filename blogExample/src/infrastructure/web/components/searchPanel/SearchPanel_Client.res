@@ -1,10 +1,10 @@
 WebComponent.define({
   name: "search-panel",
-  connect: () => {
-    let openButton = DOMUtils.querySelector("button")->Option.getExn
-    let dialog = DOMUtils.querySelector("dialog")->Option.getExn
-    let input = DOMUtils.querySelector("input")->Option.getExn
-    let list = DOMUtils.querySelector("ul")->Option.getExn
+  connect: self => {
+    let openButton = DOMUtils.querySelector(self, "button")->Option.getOrThrow
+    let dialog = DOMUtils.querySelector(self, "dialog")->Option.getOrThrow
+    let input = DOMUtils.querySelector(self, "input")->Option.getOrThrow
+    let list = DOMUtils.querySelector(self, "ul")->Option.getOrThrow
 
     let dialogOpen = ref(false)
     let timeout = ref(None)

@@ -1,11 +1,11 @@
 WebComponent.define({
   name: "x-image",
-  connect: () => {
+  connect: self => {
     let body = DOMUtils.body
-    let image = DOMUtils.querySelector("img")->Option.getExn
-    let dialog = DOMUtils.querySelector("dialog")->Option.getExn
-    let backdrop = DOMUtils.querySelector(".backdrop")->Option.getExn
-    let dialogImage = DOMUtils.querySelector("dialog > img")->Option.getExn
+    let image = DOMUtils.querySelector(self, "img")->Option.getOrThrow
+    let dialog = DOMUtils.querySelector(self, "dialog")->Option.getOrThrow
+    let backdrop = DOMUtils.querySelector(self, ".backdrop")->Option.getOrThrow
+    let dialogImage = DOMUtils.querySelector(self, "dialog > img")->Option.getOrThrow
 
     DOMUtils.addEventListener(image, "click", _ => {
       DOMUtils.setStyle(body, "overflow", "hidden")

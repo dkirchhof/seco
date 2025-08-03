@@ -2,10 +2,8 @@
 @val external document: Dom.element = "document"
 @val external body: Dom.element = "document.body"
 
-// external querySelector: string => option<Dom.element> = "document.querySelector"
-external querySelector: string => option<Dom.element> = "this.querySelector"
-// external querySelectorAll: string => array<Dom.element> = "document.querySelectorAll"
-external querySelectorAll: string => array<Dom.element> = "this.querySelectorAll"
+@send external querySelector: (Dom.element, string) => option<Dom.element> = "querySelector"
+@send external querySelectorAll: (Dom.element, string) => array<Dom.element> = "querySelectorAll"
 
 @send external addEventListener: (Dom.element, string, JsxEvent.synthetic<_> => unit) => unit = "addEventListener"
 
