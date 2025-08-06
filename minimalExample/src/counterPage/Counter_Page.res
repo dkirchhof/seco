@@ -1,4 +1,5 @@
-let make = Component.make(async _props => {
+@jsx.component
+let make = () => {
   let filename = RescriptBun.Global.filename
 
   let assets = Dict.get(Assets.assets, filename)
@@ -22,4 +23,4 @@ let make = Component.make(async _props => {
       </body>
     </html>
   </>
-})
+}

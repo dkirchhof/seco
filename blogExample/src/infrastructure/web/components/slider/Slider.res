@@ -1,6 +1,7 @@
 type props = {images: array<string>}
 
-let make = ComponentP.make(async props => {
+@jsx.componentWithProps
+let make = props => {
   <x-slider>
     <div class="controls">
       <button class="prevButton"> {Jsx.string("⬅")} </button>
@@ -16,4 +17,4 @@ let make = ComponentP.make(async props => {
       ->Jsx.array}
     </div>
   </x-slider>
-})
+}

@@ -5,12 +5,13 @@ module Link = {
     currentPathname: string,
   }
 
-  let make = ComponentP.make(async props => {
+  @jsx.componentWithProps
+  let make = props => {
     <a
       href=props.pathname ariaCurrent={props.pathname === props.currentPathname ? #page : #"false"}>
       {Jsx.string(props.name)}
     </a>
-  })
+  }
 }
 
 type props = {
@@ -19,7 +20,8 @@ type props = {
   children: Jsx.element,
 }
 
-let make = ComponentP.make(async props => {
+@jsx.componentWithProps
+let make = props => {
   let assets = Dict.get(Assets.assets, props.filename)
   let script = Option.flatMap(assets, a => a.script)->Option.getOr("")
   let style = Option.flatMap(assets, a => a.style)->Option.getOr("")
@@ -53,4 +55,4 @@ let make = ComponentP.make(async props => {
       </body>
     </html>
   </>
-})
+}

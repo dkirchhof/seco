@@ -142,11 +142,12 @@ switch path {
 
 ### Components
 
-You can define type-safe, async components with a JSX like syntax.
+You can define type-safe, (async) components with a JSX like syntax.
 
 ```res
 // WithoutProps.res
-let make = Seco.Component.make(async _ => {
+@jsx.component
+let make = () => {
   <div> {JSX.string("hello world")} </div>
 })
 
@@ -155,9 +156,21 @@ let make = Seco.Component.make(async _ => {
 type props = {
   message: string
 }
+```
 
-let make = Seco.ComponentP.make(async props => {
+@jsx.componentWithProps
+let make = props => {
   <div> {JSX.string(props.message)} </div>
+})
+```
+
+```res
+// Async.res
+@jsx.component
+let make = async () => {
+  let message = await getMessage()
+
+  <div> {JSX.string(message)} </div>
 })
 ```
 

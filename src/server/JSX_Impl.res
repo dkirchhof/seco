@@ -22,16 +22,16 @@ let handleProps = props => {
   Dict.set(props, "children", children)
 }
 
-let createElement = (component: Element.t<'props>, props: 'props) => {
+let createElement = (component: Jsx.component<'props>, props: 'props) => {
   handleProps(props)
 
-  switch component {
-  | Async(async) =>
+  switch Type.Classify.classify(component) {
+  | Function(function) =>
     Node.Component({
-      tag: async,
+      tag: Obj.magic(function),
       props,
     })->Node.toElement
-  | Fragment =>
+  | _ =>
     Node.Fragment({
       props: props,
     })->Node.toElement
@@ -49,6 +49,7 @@ let createTag = (tag: string, props: DOM.props): Jsx.element => {
 
 type fragmentProps = {children: Jsx.element}
 
-let fragment: Element.t<fragmentProps> = {
-  Element.Fragment
+let fragment: Jsx.component<fragmentProps> = {
+  // Element.Fragment
+  Obj.magic()
 }

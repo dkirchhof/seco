@@ -1,4 +1,5 @@
-let make = Component.make(async _ => {
+@jsx.component
+let make = () => {
   <search-panel>
     <button> {Jsx.string("Search")} </button>
     <dialog>
@@ -41,4 +42,4 @@ let make = Component.make(async _ => {
       </div>
     </dialog>
   </search-panel>
-})
+}

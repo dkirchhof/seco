@@ -2,7 +2,8 @@ type variant = Big | Small
 
 type props = {post: Post.t, variant: variant}
 
-let make = ComponentP.make(async props => {
+@jsx.componentWithProps
+let make = props => {
   let class = `postPreview ${(props.variant :> string)}`
 
   <article class>
@@ -23,4 +24,4 @@ let make = ComponentP.make(async props => {
       </div>
     </a>
   </article>
-})
+}

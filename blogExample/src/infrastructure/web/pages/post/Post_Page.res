@@ -3,7 +3,8 @@ type props = {
   id: string,
 }
 
-let make = ComponentP.make(async props => {
+@jsx.componentWithProps
+let make = async props => {
   let post = await props.getPost({id: props.id})
 
   switch post {
@@ -31,4 +32,4 @@ let make = ComponentP.make(async props => {
     </Page>
   | None => throw(Not_found)
   }
-})
+}

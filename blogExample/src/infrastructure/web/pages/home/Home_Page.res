@@ -1,4 +1,5 @@
-let make = Component.make(async _props => {
+@jsx.component
+let make = () => {
   <Page filename=RescriptBun.Global.filename title="DK">
     <h1> {JSX.string("DK")} </h1>
     <Text text="Gallery" />
@@ -20,4 +21,4 @@ let make = Component.make(async _props => {
       ]
     />
   </Page>
-})
+}

@@ -2,7 +2,8 @@ type props = {
   image: string,
 }
 
-let make = ComponentP.make(async props => {
+@jsx.componentWithProps
+let make = props => {
   <x-image>
     <img src=props.image />
     <dialog>
@@ -10,4 +11,4 @@ let make = ComponentP.make(async props => {
       <img src=props.image />
     </dialog>
   </x-image>
-})
+}

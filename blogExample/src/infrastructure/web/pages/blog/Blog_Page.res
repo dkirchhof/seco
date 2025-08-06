@@ -1,6 +1,7 @@
 type props = {getPosts: GetPosts.t}
 
-let make = ComponentP.make(async props => {
+@jsx.componentWithProps
+let make = async props => {
   let posts = await props.getPosts()
 
   <Page filename=RescriptBun.Global.filename title="Blog">
@@ -13,4 +14,4 @@ let make = ComponentP.make(async props => {
       ->JSX.array}
     </div>
   </Page>
-})
+}
