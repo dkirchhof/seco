@@ -17,6 +17,7 @@ let scanFile = async file => {
   let _ = await Bun.build({
     entrypoints: [file],
     plugins: [SiblingsExtractor.make(siblings), CSSImportsExtractor.make(styleImports)],
+    target: Bun,
   })
 
   {
