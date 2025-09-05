@@ -174,7 +174,7 @@ type props = {
   kind?: string /* has a fixed set of possible values */,
   label?: string,
   list?: string,
-  loading?: [#"lazy" | #eager],
+  loading?: [#lazy | #eager],
   loop?: bool,
   low?: int,
   manifest?: string /* uri */,
@@ -508,10 +508,13 @@ type props = {
   stroke?: string,
   strokeDasharray?: string,
   strokeDashoffset?: string,
+  @as("stroke-linecap")
   strokeLinecap?: string,
+  @as("stroke-linejoin")
   strokeLinejoin?: string,
   strokeMiterlimit?: string,
   strokeOpacity?: string,
+  @as("stroke-width")
   strokeWidth?: string,
   surfaceScale?: string,
   systemLanguage?: string,
@@ -587,4 +590,16 @@ type props = {
   /* react-specific */
   dangerouslySetInnerHTML?: {"__html": string},
   suppressContentEditableWarning?: bool,
+  @as("closedby")
+  closedBy?: [#none | #closerequest | #any],
+  @as("commandfor")
+  commandFor?: string,
+  command?: [
+    | #"show-modal"
+    | #close
+    | #"request-close"
+    | #"show-popover"
+    | #"hide-popover"
+    | #"toggle-popover"
+  ],
 }
